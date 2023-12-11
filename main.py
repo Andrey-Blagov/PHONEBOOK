@@ -35,9 +35,7 @@ def id_contacts():
         contacts_str = file.read()
 
     contacts_list = contacts_str.rstrip().split('\n\n')
-
     contact_last = contacts_list[-1].replace('\n', ' ').split(' ')
-
     id_contact = int(contact_last[0][0]) + 1
 
     return id_contact
