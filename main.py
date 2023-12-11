@@ -28,6 +28,19 @@
 # ------------------------------
 # 5 Создание интерфейса ++++
 
+def id_contacts():
+    global id_contact
+
+    with open('phonebook.txt', 'r', encoding='utf-8') as file:
+        contacts_str = file.read()
+
+    contacts_list = contacts_str.rstrip().split('\n\n')
+
+    contact_last = contacts_list[-1].replace('\n', ' ').split(' ')
+
+    id_contact = int(contact_last[0][0]) + 1
+
+    return id_contact
 
 def name_input():
     return input('Введите имя: ').title()
@@ -51,13 +64,15 @@ def address_input():
 
 def create_contact():
     '''Add an entry'''
+
+    next_id_contact = id_contacts()
     surname = surname_input()
     name = name_input()
     patronymic = patronymic_input()
     phone = phone_input()
     address = address_input()
 
-    return f'{surname} {name} {patronymic} {phone}\n{address}\n\n'
+    return f'{next_id_contact}. {surname} {name} {patronymic} {phone}\n{address}\n\n'
 
 
 def write_contact():
@@ -69,16 +84,22 @@ def write_contact():
 
 def print_contacts():
     '''List all entries'''
-    # with open('phonebook.txt', 'r', encoding='utf-8') as file:
-    #     print('-----------------------')
-    #     print(file.read())
-    #     print('-----------------------')
+    with open('phonebook.txt', 'r', encoding='utf-8') as file:
+        print('------------НАЧАЛО------------')
+        print(file.read())
+        print('------------КОНЕЦ------------')
 
     # 2
-    with open('phonebook.txt', 'r', encoding='utf-8') as file:
-        contacts_list = file.read().rstrip().split('\n\n')
-        for nn, contact in enumerate(contacts_list, 1):
-            print(f'{nn}. {contact}\n')
+    # with open('phonebook.txt', 'r', encoding='utf-8') as file:
+    #     contacts_list = file.read().rstrip().split('\n\n')
+    #     for nn, contact in enumerate(contacts_list, 1):
+    #         print(f'{nn}. {contact}\n')
+
+
+    # with open('phonebook.txt', 'r', encoding='utf-8') as file:
+    #     contacts_list = file.read().rstrip().split('\n\n')
+    #     for nn, contact in enumerate(contacts_list, 1):
+    #         print(f'{nn}. {contact}\n')
 
 
 def search_contact(field=''):
@@ -92,7 +113,7 @@ def search_contact(field=''):
         '5. по городу\n'
     )
 
-    index_var = int(input('Введите вариант поиска: '))-1
+    index_var = int(input('Введите вариант поиска: '))
 
     search = input('Введите данные для поиска: ')
 
@@ -109,23 +130,75 @@ def search_contact(field=''):
             print(f'\n{contact_str}\n')
 
 
+def favorit_contacts():
+
+    # Простой вариант
+
+    # print(
+    #     'Возможные варианты поиска контакта для добавления в избранное:\n'
+    #     '1. по фамилии\n'
+    #     '2. по имени\n'
+    #     '3. по отчеству\n'
+    #     '4. по номеру\n'
+    #     '5. по городу\n'
+    # )
+    #
+    # index_var = int(input('Введите вариант поиска: ')) - 1
+    #
+    # search = input('Введите данные контакта для добавления: ')
+    #
+    # with open('phonebook.txt', 'r', encoding='utf-8') as file:
+    #     contacts_str = file.read()
+    #
+    # contacts_list = contacts_str.rstrip().split('\n\n')
+    #
+    #
+    # for contact_str in contacts_list:
+    #     contact_list = contact_str.replace('\n', ' ').split(' ')
+    #     if search in contact_list[index_var]:
+    #         with open('favorite_contacts.txt', 'a', encoding='utf-8') as file:
+    #             file.write(contact_str)
+    #             print('\nКонтакт записан!\n')
+
+
+
+    print_contacts()
+
+    index_var = (input('Введите номер контакта для добавления в избранное: '))
+
+    with open('phonebook.txt', 'r', encoding='utf-8') as file:
+        contacts_str = file.read()
+
+    contacts_list = contacts_str.rstrip().split('\n\n')
+
+    for contact_str in contacts_list:
+        contact_list = contact_str.replace('\n', ' ').split(' ')
+        if index_var in contact_list[0]:
+            with open('favorite_contacts.txt', 'a', encoding='utf-8') as file:
+                file.write(contact_str)
+                file.write('\n')
+                print('\nКонтакт записан!\n')
+
+
+
 def interface():
     with open('phonebook.txt', 'a'):
         pass
 
     user_input = None
-    while user_input != '4':
+    while user_input != '5':
         print(
             'Возможные варианты действия:\n'
             '1. Добавить контакт\n'
             '2. Вывод списка контактов\n'
             '3. Поиск контакта\n'
-            '4. Выход из программы\n'
+            '4. Добавить контакт в избранное\n'
+            '5. Выход из программы\n'
         )
 
         user_input = input('Введите вариант: ')
 
-        while user_input not in ('1', '2', '3', '4'):
+        while user_input not in ('1', '2', '3', '4', '5'):
             print('Некорректный ввод.')
             user_input = input('Введите вариант: ')
 
@@ -138,6 +211,11 @@ def interface():
                 print_contacts()
             case '3':
                 search_contact()
+            case '4':
+                favorit_contacts()
+
+
+
 
 
 if __name__ == '__main__':
