@@ -182,6 +182,28 @@ def favorit_contacts():
                 print('\nКонтакт записан!\n')
 
 
+def print_favorite_contacts():
+    with open('favorite_contacts.txt', 'r', encoding='utf-8') as file:
+        print('------------НАЧАЛО------------')
+        print(file.read())
+        print('------------КОНЕЦ------------\n')
+
+
+def del_favorit_contacts():
+    print_favorite_contacts()
+
+    index_var = (input('Введите номер контакта для удаления из избранного: '))
+
+    with open('favorite_contacts.txt', 'r', encoding='utf-8') as file:
+        contacts_str = file.read()
+
+    contacts_list = contacts_str.rstrip().split('\n\n')
+
+    for contact_str in contacts_list:
+        contact_list = contact_str.replace('\n', ' ').split(' ')
+        if index_var in contact_list[0]:
+            del contact_str
+            print('\nКонтакт УДАЛЁН из избранного!\n')
 
 def interface():
     with open('phonebook.txt', 'a'):
@@ -195,7 +217,9 @@ def interface():
             '2. Вывод списка контактов\n'
             '3. Поиск контакта\n'
             '4. Добавить контакт в избранное\n'
-            '5. Выход из программы\n'
+            '5. Вывод избранных контактов\n'
+            '6. Удаление избранного контакта\n'
+            '7. Выход из программы\n'
         )
 
         user_input = input('Введите вариант: ')
@@ -223,8 +247,6 @@ def interface():
 if __name__ == '__main__':
     interface()
 
-# Задача 38:  Дополнить телефонный справочник возможностью изменения
-# и удаления данных(по выбору).
-# Пользователь также может ввести имя или фамилию,
-# и Вы должны реализовать функционал для изменения и удаления данных.
+# Дополнить справочник возможностью копирования данных из одного файла в другой.
+# Пользователь вводит номер строки, которую необходимо перенести из одного файла в другой.
 
