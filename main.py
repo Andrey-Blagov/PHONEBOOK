@@ -36,7 +36,11 @@ def id_contacts():
 
     contacts_list = contacts_str.rstrip().split('\n\n')
     contact_last = contacts_list[-1].replace('\n', ' ').split(' ')
-    id_contact = int(contact_last[0][0]) + 1
+    id_contact = contact_last[0][0]
+    if id_contact == None:
+        id_contact = 0
+    else:
+        id_contact = int(contact_last[0][0]) + 1
 
     return id_contact
 
@@ -85,7 +89,8 @@ def print_contacts():
     with open('phonebook.txt', 'r', encoding='utf-8') as file:
         print('------------НАЧАЛО------------')
         print(file.read())
-        print('------------КОНЕЦ------------')
+        print('------------КОНЕЦ------------\n')
+
 
     # 2
     # with open('phonebook.txt', 'r', encoding='utf-8') as file:
