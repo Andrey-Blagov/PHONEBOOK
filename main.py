@@ -135,7 +135,7 @@ def search_contact(field=''):
 
 def favorit_contacts():
 
-    # Простой вариант
+    # Вариант добавления контакта в избранное
     # print(
     #     'Возможные варианты поиска контакта для добавления в избранное:\n'
     #     '1. по фамилии\n'
@@ -202,15 +202,16 @@ def del_favorit_contacts():
     for contact_str in contacts_list:
         contact_list = contact_str.replace('\n', ' ').split(' ')
         if index_var in contact_list[0]:
-            del contact_str
-            print('\nКонтакт УДАЛЁН из избранного!\n')
+            with open('favorite_contacts.txt', 'a', encoding='utf-8') as file:
+                contact_str = contact_str.replace('\n', '-')
+                print('\nКонтакт УДАЛЁН из избранного!\n')
 
 def interface():
     with open('phonebook.txt', 'a'):
         pass
 
     user_input = None
-    while user_input != '5':
+    while user_input != '7':
         print(
             'Возможные варианты действия:\n'
             '1. Добавить контакт\n'
@@ -218,13 +219,13 @@ def interface():
             '3. Поиск контакта\n'
             '4. Добавить контакт в избранное\n'
             '5. Вывод избранных контактов\n'
-            '6. Удаление избранного контакта\n'
+            '6. Удаление избранного контакта (НЕ РАБОТАЕТ !!!!!!)\n'
             '7. Выход из программы\n'
         )
 
         user_input = input('Введите вариант: ')
 
-        while user_input not in ('1', '2', '3', '4', '5'):
+        while user_input not in ('1', '2', '3', '4', '5', '6', '7'):
             print('Некорректный ввод.')
             user_input = input('Введите вариант: ')
 
@@ -239,6 +240,10 @@ def interface():
                 search_contact()
             case '4':
                 favorit_contacts()
+            case '5':
+                print_favorite_contacts()
+            case '6':
+                del_favorit_contacts()
 
 
 
